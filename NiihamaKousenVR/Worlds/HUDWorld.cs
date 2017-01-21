@@ -15,10 +15,11 @@ namespace NiihamaKousenVR.Worlds
     {
         public HUDWorld()
         {
-            ActiveCamera = cam;
+            ActiveCamera = customCam;
 
-            miniMap.PSRTag.Position = new Vector3((float)(-cam.CameraWidth / 2 + 0.2), (float)(-cam.CameraHeight / 2 + 0.2), 0);
+            miniMap.PSRTag.Position = new Vector3((float)(-customCam.CameraWidth / 2 + 0.2), (float)(-customCam.CameraHeight / 2 + 0.2), 0);
             miniMap.PSRTag.Scale = new Vector3(0.3f);
+            miniMap.PSRTag.Rotation = new Vector3(0.0f, 0.15f, 0.0f);
 
             miniMapCanvas = new RenderingCanvas(miniMapTex);
             ColorTexture miniMapTexTag = new ColorTexture(miniMapTex);
@@ -27,9 +28,9 @@ namespace NiihamaKousenVR.Worlds
 
             scoreBg.Tags.AddTag(new SolidColor(SolidColorOverwriteMode.ColorAndAlpha, new MatColor(0.4, 0.1, 0.1, 0.1)));
             scoreBg.PSRTag.Position = new Vector3((float)(customCam.CameraWidth / 2 - 0.2), (float)(-customCam.CameraHeight / 2 + 0.1), 0.0f);
-            scoreBg.PSRTag.Rotation = new Vector3(0.0f, -0.2f, 0.0f);
-            scoreBg.CameraTag.UseCustomCamera = true;
-            scoreBg.CameraTag.CustomCamera = customCam;
+            scoreBg.PSRTag.Rotation = new Vector3(0.0f, -0.15f, 0.0f);
+            //scoreBg.CameraTag.UseCustomCamera = true;
+            //scoreBg.CameraTag.CustomCamera = customCam;
 
             score.TextValue = "100/100";
             score.FontSize = 100;
@@ -53,11 +54,11 @@ namespace NiihamaKousenVR.Worlds
 
         double count = 100.0;
 
-        public CameraOrthographic cam = new CameraOrthographic()
-        {
-            CameraHeight = PresentationBase.ViewArea.ActualHeight / 1000.0,
-            CameraWidth = PresentationBase.ViewArea.ActualWidth / 1000.0
-        };
+        //public CameraOrthographic cam = new CameraOrthographic()
+        //{
+        //    CameraHeight = PresentationBase.ViewArea.ActualHeight / 1000.0,
+        //    CameraWidth = PresentationBase.ViewArea.ActualWidth / 1000.0
+        //};
 
         CameraPerspective customCam = new CameraPerspective()
         {

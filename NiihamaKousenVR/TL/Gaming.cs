@@ -27,6 +27,7 @@ namespace NiihamaKousenVR.TL
             }
 
             PresentationBase.World = GameApp.MainWorld;
+            Application.Current.Dispatcher.Invoke(() => { MATAPB.Input.Mouse.Active = true; });
         }
     }
 }

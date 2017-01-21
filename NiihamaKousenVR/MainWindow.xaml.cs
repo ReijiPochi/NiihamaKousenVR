@@ -38,6 +38,7 @@ namespace NiihamaKousenVR
             MATAPB.Input.Keyboard.Initialize();
             MATAPB.Input.Keyboard.KeyInput += Keyboard_KeyInput;
             MATAPB.Input.Mouse.Initialize();
+            MATAPB.Input.Mouse.Active = false;
             MATAPB.Input.Mouse.CursorLock = true;
             MATAPB.Input.Mouse.CursorVisibility = false;
 
