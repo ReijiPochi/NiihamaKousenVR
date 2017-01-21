@@ -26,7 +26,7 @@ namespace NiihamaKousenVR.Worlds
             miniMap.Tags.AddTag(miniMapTexTag);
 
             scoreBg.Tags.AddTag(new SolidColor(SolidColorOverwriteMode.ColorAndAlpha, new MatColor(0.4, 0.1, 0.1, 0.1)));
-            scoreBg.PSRTag.Position = new Vector3((float)(cam.CameraWidth / 2 - 0.1 * cam.Aspect), (float)(-cam.CameraHeight / 2 + 0.1), 0.3f);
+            scoreBg.PSRTag.Position = new Vector3((float)(customCam.CameraWidth / 2 - 0.2), (float)(-customCam.CameraHeight / 2 + 0.1), 0.0f);
             scoreBg.PSRTag.Rotation = new Vector3(0.0f, -0.2f, 0.0f);
             scoreBg.CameraTag.UseCustomCamera = true;
             scoreBg.CameraTag.CustomCamera = customCam;
@@ -48,14 +48,6 @@ namespace NiihamaKousenVR.Worlds
         public RenderingCanvas miniMapCanvas;
         Picture miniMap = new Picture(1, 1);
 
-        CameraPerspective customCam = new CameraPerspective()
-        {
-            Eye = Vector3.UnitZ,
-            Target = Vector3.Zero,
-            Up = Vector3.UnitY,
-            FieldOfView = 70
-        };
-
         Text score = new Text(500, 200, new MatColor(1, 1, 1, 1));
         MATAPB.Objects.Primitive.Plane scoreBg = new MATAPB.Objects.Primitive.Plane(0.25, 0.1, Orientations.plusZ);
 
@@ -63,6 +55,16 @@ namespace NiihamaKousenVR.Worlds
 
         public CameraOrthographic cam = new CameraOrthographic()
         {
+            CameraHeight = PresentationBase.ViewArea.ActualHeight / 1000.0,
+            CameraWidth = PresentationBase.ViewArea.ActualWidth / 1000.0
+        };
+
+        CameraPerspective customCam = new CameraPerspective()
+        {
+            Eye = Vector3.UnitZ,
+            Target = Vector3.Zero,
+            Up = Vector3.UnitY,
+            Mode = CameraPerspectiveMode.UseWidthHeight,
             CameraHeight = PresentationBase.ViewArea.ActualHeight / 1000.0,
             CameraWidth = PresentationBase.ViewArea.ActualWidth / 1000.0
         };
