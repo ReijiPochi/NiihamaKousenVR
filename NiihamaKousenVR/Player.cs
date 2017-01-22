@@ -16,6 +16,9 @@ namespace NiihamaKousenVR
         public Player()
         {
             PlayerCam = MainCam;
+
+            SpeedFBDelta = 30.0;
+            SpeedLRDelta = 30.0;
         }
 
         CameraPerspective MainCam = new CameraPerspective()

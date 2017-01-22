@@ -9,6 +9,7 @@ using MATAPB.Objects;
 using MATAPB.Objects.Tags;
 
 using Keyboard = MATAPB.Input.Keyboard;
+using Mouse = MATAPB.Input.Mouse;
 using Vector3 = System.Numerics.Vector3;
 using System.Windows;
 using MATAPB.Gaming.FPS;
@@ -76,9 +77,11 @@ namespace NiihamaKousenVR.Worlds
             GlobalLight1.Ambitent = new Vector4(0.0f, 0.03f, 0.1f, 0);
         }
 
+        double height = 1.2, heightSpeed = 0.0, accelLR = 2.0, accelFB = 2.0, additionalAccelLR = 0.0, additionalAccelFB = 0.0;
+
         private void MovePlayer()
         {
-            Point mouseDelta = MATAPB.Input.Mouse.GetDelta();
+            Point mouseDelta = Mouse.GetDelta();
 
             MoveData data = new MoveData()
             {
@@ -86,44 +89,106 @@ namespace NiihamaKousenVR.Worlds
                 deltaAngleUD = mouseDelta.Y * 0.3
             };
 
+            double accelRate = PresentationBase.TimelengthOfFrame * 2.0;
+
+            double additionalAccelRate = 0.0;
+            if (Keyboard.KeyStates[Key.LeftShift])
+            {
+                additionalAccelRate = PresentationBase.TimelengthOfFrame * 3.0;
+            }
+            else
+            {
+                additionalAccelLR = 0.0;
+                additionalAccelFB = 0.0;
+            }
+
+            if(Mouse.RightButtonDown)
+            {
+                data.fov = 35.0;
+                data.deltaAngleLR *= 0.4;
+                data.deltaAngleUD *= 0.4;
+            }
+            else
+            {
+                data.fov = 70.0;
+            }
+
             if (Keyboard.KeyStates[Key.D])
             {
                 if (Keyboard.KeyStates[Key.A])
+                {
+                    accelLR = 2.0;
+                    additionalAccelLR = 0.0;
                     data.speedLR = 0;
+                }
                 else
-                    data.speedLR = -3;
+                {
+                    if (accelLR < 3.0) accelLR += accelRate;
+                    if (additionalAccelLR < 7.0) additionalAccelLR += additionalAccelRate;
+                    data.speedLR = -accelLR - additionalAccelLR;
+                }
             }
-            else if (Keyboard.KeyStates[Key.A]) data.speedLR = 3;
-            else data.speedLR = 0;
+            else if (Keyboard.KeyStates[Key.A])
+            {
+                if (accelLR < 3.0) accelLR += accelRate;
+                if (additionalAccelLR < 7.0) additionalAccelLR += additionalAccelRate;
+                data.speedLR = accelLR + additionalAccelLR;
+            }
+            else
+            {
+                accelLR = 2.0;
+                additionalAccelLR = 0.0;
+                data.speedLR = 0;
+            }
 
-            if (Keyboard.KeyStates[Key.W])
+            if(Keyboard.KeyStates[Key.W])
             {
                 if (Keyboard.KeyStates[Key.S])
+                {
+                    accelFB = 2.0;
+                    additionalAccelFB = 0.0;
                     data.speedFB = 0;
+                }
                 else
-                    data.speedFB = 3;
+                {
+                    if (accelFB < 3.0) accelFB += accelRate;
+                    if (additionalAccelFB < 7.0) additionalAccelFB += additionalAccelRate;
+                    data.speedFB = accelFB + additionalAccelFB;
+                }
             }
-            else if (Keyboard.KeyStates[Key.S]) data.speedFB = -3;
-            else data.speedFB = 0;
-
-            if (Keyboard.KeyStates[Key.LeftShift])
+            else if (Keyboard.KeyStates[Key.S])
             {
-                data.speedFB *= 2.0;
-                data.speedLR *= 2.0;
+                if (accelFB < 3.0) accelFB += accelRate;
+                if (additionalAccelFB < 7.0) additionalAccelFB += additionalAccelRate;
+                data.speedFB = -accelFB - additionalAccelFB;
+            }
+            else
+            {
+                accelFB = 2.0;
+                additionalAccelFB = 0.0;
+                data.speedFB = 0;
             }
 
             if (Keyboard.KeyStates[Key.Space])
             {
-                data.height = 2.5;
+                if (heightSpeed < 0.1) heightSpeed += 0.002;
             }
             else if (Keyboard.KeyStates[Key.LeftCtrl])
             {
-                data.height = 0.9;
+                if (heightSpeed > -0.2) heightSpeed -= 0.003;
             }
             else
             {
-                data.height = 1.6;
+                heightSpeed /= 1.1;
             }
+
+            if (Math.Abs(heightSpeed) < 0.0001) heightSpeed = 0.0;
+
+            height += heightSpeed;
+            if (height > 30.0) height = 30.0;
+            else if (height < 0.5) height = 0.5;
+
+            data.height = height;
 
             player.Move(data);
         }

@@ -52,8 +52,6 @@ namespace NiihamaKousenVR.Worlds
         Text score = new Text(500, 200, new MatColor(1, 1, 1, 1));
         MATAPB.Objects.Primitive.Plane scoreBg = new MATAPB.Objects.Primitive.Plane(0.25, 0.1, Orientations.plusZ);
 
-        double count = 100.0;
-
         //public CameraOrthographic cam = new CameraOrthographic()
         //{
         //    CameraHeight = PresentationBase.ViewArea.ActualHeight / 1000.0,
@@ -72,10 +70,9 @@ namespace NiihamaKousenVR.Worlds
 
         public override void Render(RenderingContext context)
         {
-            count -= 0.01;
-            score.TextValue = count.ToString("000") + "/100";
+            score.TextValue = "100/100";
 
-            customCam.CameraUpdate(context);
+            //customCam.CameraUpdate(context);
 
             base.Render(context);
         }
