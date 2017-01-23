@@ -42,6 +42,7 @@ namespace NiihamaKousenVR.Worlds
 
             Objects.Add(miniMap);
             Objects.Add(scoreBg);
+            Objects.Add(centerCircle);
             OverlayObjects.Add(score);
         }
 
@@ -51,6 +52,8 @@ namespace NiihamaKousenVR.Worlds
 
         Text score = new Text(500, 200, new MatColor(1, 1, 1, 1));
         MATAPB.Objects.Primitive.Plane scoreBg = new MATAPB.Objects.Primitive.Plane(0.25, 0.1, Orientations.plusZ);
+
+        Circle centerCircle = new Circle() { Radius = 0.02, Color = new MatColor(1.0f, 1.0f, 0.7f, 0.0f) };
 
         //public CameraOrthographic cam = new CameraOrthographic()
         //{

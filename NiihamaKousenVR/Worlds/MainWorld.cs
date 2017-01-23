@@ -28,11 +28,13 @@ namespace NiihamaKousenVR.Worlds
             buildingD.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureD.png"), new Lighting() });
             buildingS.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureS.png"), new Lighting() });
             buildingMon.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureMon.png"), new Lighting() });
+            bulidingShou.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureShou.png"), new Lighting() });
 
             Objects.Add(sky);
             Objects.Add(buildingD);
             Objects.Add(buildingS);
             Objects.Add(buildingMon);
+            Objects.Add(bulidingShou);
 
             ActiveCamera = player.PlayerCam;
         }
@@ -43,6 +45,7 @@ namespace NiihamaKousenVR.Worlds
         Object3D buildingD = new Object3D(@"Objects\BuildingD.obj");
         Object3D buildingS = new Object3D(@"Objects\BuildingS.obj");
         Object3D buildingMon = new Object3D(@"Objects\BuildingMon.obj");
+        Object3D bulidingShou = new Object3D(@"Objects\BuildingShou.obj");
 
         HUDWorld hudWorld = new HUDWorld();
         MiniMapWorld miniMapWorld = new MiniMapWorld();
