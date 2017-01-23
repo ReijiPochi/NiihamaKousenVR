@@ -40,9 +40,12 @@ namespace NiihamaKousenVR.Worlds
             score.CameraTag.UseCustomCamera = true;
             score.CameraTag.CustomCamera = customCam;
 
+            centerCircle.CountOfPoints = 20;
+            centerCircle.LineTag.Thickness = 0.01;
+
             Objects.Add(miniMap);
             Objects.Add(scoreBg);
-            Objects.Add(centerCircle);
+            //Objects.Add(centerCircle);
             OverlayObjects.Add(score);
         }
 
@@ -53,7 +56,7 @@ namespace NiihamaKousenVR.Worlds
         Text score = new Text(500, 200, new MatColor(1, 1, 1, 1));
         MATAPB.Objects.Primitive.Plane scoreBg = new MATAPB.Objects.Primitive.Plane(0.25, 0.1, Orientations.plusZ);
 
-        Circle centerCircle = new Circle() { Radius = 0.02, Color = new MatColor(1.0f, 1.0f, 0.7f, 0.0f) };
+        Circle centerCircle = new Circle() { Radius = 0.05, Color = new MatColor(1.0f, 1.0f, 0.7f, 0.0f) };
 
         //public CameraOrthographic cam = new CameraOrthographic()
         //{
