@@ -29,12 +29,20 @@ namespace NiihamaKousenVR.Worlds
             buildingS.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureS.png"), new Lighting() });
             buildingMon.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureMon.png"), new Lighting() });
             bulidingShou.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureShou.png"), new Lighting() });
+            buildingZ.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureZ.png"), new Lighting() });
+            bulidingLab.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureLab.png"), new Lighting() });
+            bulidingC.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureC.png"), new Lighting() });
+            bulidingG.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureG.png"), new Lighting() });
 
             Objects.Add(sky);
             Objects.Add(buildingD);
             Objects.Add(buildingS);
             Objects.Add(buildingMon);
             Objects.Add(bulidingShou);
+            Objects.Add(buildingZ);
+            Objects.Add(bulidingLab);
+            Objects.Add(bulidingC);
+            Objects.Add(bulidingG);
 
             ActiveCamera = player.PlayerCam;
         }
@@ -46,6 +54,10 @@ namespace NiihamaKousenVR.Worlds
         Object3D buildingS = new Object3D(@"Objects\BuildingS.obj");
         Object3D buildingMon = new Object3D(@"Objects\BuildingMon.obj");
         Object3D bulidingShou = new Object3D(@"Objects\BuildingShou.obj");
+        Object3D buildingZ = new Object3D(@"Objects\BuildingZ.obj");
+        Object3D bulidingLab = new Object3D(@"Objects\BuildingLab.obj");
+        Object3D bulidingC = new Object3D(@"Objects\BuildingC.obj");
+        Object3D bulidingG = new Object3D(@"Objects\BuildingG.obj");
 
         HUDWorld hudWorld = new HUDWorld();
         MiniMapWorld miniMapWorld = new MiniMapWorld();
