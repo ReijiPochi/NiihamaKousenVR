@@ -32,7 +32,7 @@ namespace NiihamaKousenVR.Worlds
             //scoreBg.CameraTag.UseCustomCamera = true;
             //scoreBg.CameraTag.CustomCamera = customCam;
 
-            score.TextValue = "100/100";
+            score.TextValue = "001/025";
             score.FontSize = 100;
             score.PSRTag.Position = scoreBg.PSRTag.Position;
             score.PSRTag.Rotation = scoreBg.PSRTag.Rotation;
@@ -76,8 +76,6 @@ namespace NiihamaKousenVR.Worlds
 
         public override void Render(RenderingContext context)
         {
-            score.TextValue = "100/100";
-
             //customCam.CameraUpdate(context);
 
             base.Render(context);

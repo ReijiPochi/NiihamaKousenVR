@@ -15,6 +15,7 @@ using System.Windows;
 using MATAPB.Gaming.FPS;
 using System.Windows.Input;
 using System.Numerics;
+using MATAPB.PostEffect;
 
 namespace NiihamaKousenVR.Worlds
 {
@@ -23,6 +24,7 @@ namespace NiihamaKousenVR.Worlds
         public MainWorld()
         {
             InitLight();
+            Effect = new SSAO();
 
             sky.Tags.AddTag(new ColorTexture(@"Objects\Sky.png"));
             buildingD.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureD.png"), new Lighting() });
@@ -33,6 +35,8 @@ namespace NiihamaKousenVR.Worlds
             bulidingLab.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureLab.png"), new Lighting() });
             bulidingC.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureC.png"), new Lighting() });
             bulidingG.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureG.png"), new Lighting() });
+            floor.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\地面.png"), new Lighting() });
+            kusozako.Tags.AddTag(new Tag[] { new SolidColor(SolidColorOverwriteMode.ColorAndAlpha, new MatColor(1.0, 1.0, 1.0, 0.95)), new Lighting() });
 
             Objects.Add(sky);
             Objects.Add(buildingD);
@@ -43,6 +47,8 @@ namespace NiihamaKousenVR.Worlds
             Objects.Add(bulidingLab);
             Objects.Add(bulidingC);
             Objects.Add(bulidingG);
+            Objects.Add(floor);
+            Objects.Add(kusozako);
 
             ActiveCamera = player.PlayerCam;
         }
@@ -58,6 +64,8 @@ namespace NiihamaKousenVR.Worlds
         Object3D bulidingLab = new Object3D(@"Objects\BuildingLab.obj");
         Object3D bulidingC = new Object3D(@"Objects\BuildingC.obj");
         Object3D bulidingG = new Object3D(@"Objects\BuildingG.obj");
+        Object3D floor = new Object3D(@"Objects\地面.obj");
+        Object3D kusozako = new Object3D(@"Objects\クソザコくん.obj");
 
         HUDWorld hudWorld = new HUDWorld();
         MiniMapWorld miniMapWorld = new MiniMapWorld();
@@ -80,9 +88,11 @@ namespace NiihamaKousenVR.Worlds
             {
                 context.canvas = PresentationBase.DefaultCanvas;
                 base.Render(context);
-
-                hudWorld.Render(context);
             }
+
+            SwitchToBackbuffer();
+
+            hudWorld.Render(context);
         }
 
         private void InitLight()
