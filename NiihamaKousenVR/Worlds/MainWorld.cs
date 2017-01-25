@@ -24,7 +24,7 @@ namespace NiihamaKousenVR.Worlds
         public MainWorld()
         {
             InitLight();
-            Effect = new SSAO();
+            Effect = new Straight();
 
             sky.Tags.AddTag(new ColorTexture(@"Objects\Sky.png"));
             buildingD.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureD.png"), new Lighting() });
