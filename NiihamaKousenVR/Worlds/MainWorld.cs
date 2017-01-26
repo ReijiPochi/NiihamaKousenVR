@@ -24,7 +24,7 @@ namespace NiihamaKousenVR.Worlds
         public MainWorld()
         {
             InitLight();
-            Effect = new Straight();
+            Effect = new Fog();
 
             sky.Tags.AddTag(new ColorTexture(@"Objects\Sky.png"));
             buildingD.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureD.png"), new Lighting() });
@@ -37,7 +37,7 @@ namespace NiihamaKousenVR.Worlds
             bulidingG.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureG.png"), new Lighting() });
             floor.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\地面.png"), new Lighting() });
             kusozako.Tags.AddTag(new Tag[] { new SolidColor(SolidColorOverwriteMode.ColorAndAlpha, new MatColor(1.0, 1.0, 1.0, 0.95)), new Lighting() });
-
+            kusozako.Tags.OutputToGZbuffer = true;
             Objects.Add(sky);
             Objects.Add(buildingD);
             Objects.Add(buildingS);
