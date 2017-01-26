@@ -82,6 +82,7 @@
     </ApplicationDefinition>
     <Compile Include="GameApp.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="SetumeiHopup.cs" />
     <Compile Include="TL\Gaming.cs" />
     <Compile Include="Worlds\HUDWorld.cs" />
     <Compile Include="Worlds\MainWorld.cs" />

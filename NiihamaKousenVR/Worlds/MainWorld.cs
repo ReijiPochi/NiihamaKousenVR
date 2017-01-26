@@ -11,11 +11,13 @@ using MATAPB.Objects.Tags;
 using Keyboard = MATAPB.Input.Keyboard;
 using Mouse = MATAPB.Input.Mouse;
 using Vector3 = System.Numerics.Vector3;
+using Plane = MATAPB.Objects.Primitive.Plane;
 using System.Windows;
 using MATAPB.Gaming.FPS;
 using System.Windows.Input;
 using System.Numerics;
 using MATAPB.PostEffect;
+using MATAPB.Gaming;
 
 namespace NiihamaKousenVR.Worlds
 {
@@ -27,17 +29,26 @@ namespace NiihamaKousenVR.Worlds
             Effect = new Fog();
 
             sky.Tags.AddTag(new ColorTexture(@"Objects\Sky.png"));
-            buildingD.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureD.png"), new Lighting() });
-            buildingS.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureS.png"), new Lighting() });
-            buildingMon.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureMon.png"), new Lighting() });
-            bulidingShou.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureShou.png"), new Lighting() });
-            buildingZ.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureZ.png"), new Lighting() });
-            bulidingLab.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureLab.png"), new Lighting() });
-            bulidingC.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureC.png"), new Lighting() });
-            bulidingG.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureG.png"), new Lighting() });
+            buildingD.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureD.png"), new Lighting(), new HeightToColor() });
+            buildingS.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureS.png"), new Lighting(), new HeightToColor() });
+            buildingMon.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureMon.png"), new Lighting(), new HeightToColor() });
+            bulidingShou.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureShou.png"), new Lighting(), new HeightToColor() });
+            buildingZ.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureZ.png"), new Lighting(), new HeightToColor() });
+            bulidingLab.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureLab.png"), new Lighting(), new HeightToColor() });
+            bulidingC.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureC.png"), new Lighting(), new HeightToColor() });
+            bulidingG.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureG.png"), new Lighting(), new HeightToColor() });
             floor.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\地面.png"), new Lighting() });
-            kusozako.Tags.AddTag(new Tag[] { new SolidColor(SolidColorOverwriteMode.ColorAndAlpha, new MatColor(1.0, 1.0, 1.0, 0.95)), new Lighting() });
-            kusozako.Tags.OutputToGZbuffer = true;
+            kusozako.Tags.AddTag(new Tag[] { new SolidColor(SolidColorOverwriteMode.ColorAndAlpha, new MatColor(1.0, 1.0, 1.0, 0.95)), new Lighting(), new HeightToColor() });
+            underGround.Tags.AddTag(new Tag[] { new SolidColor(SolidColorOverwriteMode.ColorAndAlpha, new MatColor(1.0, 1.0, 1.0, 1.0)) });
+            underGround.PSRTag.Position = -Vector3.UnitY;
+
+            hopupD.PSRTag.Position = mineD.MinePosition;
+            hopupD.PSRTag.Scale = new Vector3(1.5f);
+            hopupD.PSRTag.Rotation = new Vector3(-0.1f, (float)Math.PI, 0);
+            hopupD.Tags.InsertToFirst(hopTagD);
+            mineD.MineHit += MineD_MineHit;
+            mineD.MineLeave += MineD_MineLeave;
+
             Objects.Add(sky);
             Objects.Add(buildingD);
             Objects.Add(buildingS);
@@ -49,8 +60,12 @@ namespace NiihamaKousenVR.Worlds
             Objects.Add(bulidingG);
             Objects.Add(floor);
             Objects.Add(kusozako);
+            Objects.Add(underGround);
+            Objects.Add(hopupD);
 
             ActiveCamera = player.PlayerCam;
+
+            Keyboard.KeyInput += Keyboard_KeyInput;
         }
 
         Player player = new Player();
@@ -66,16 +81,44 @@ namespace NiihamaKousenVR.Worlds
         Object3D bulidingG = new Object3D(@"Objects\BuildingG.obj");
         Object3D floor = new Object3D(@"Objects\地面.obj");
         Object3D kusozako = new Object3D(@"Objects\クソザコくん.obj");
+        Plane underGround = new Plane(1000, 1000, Orientations.plusY);
+        //Plane hopupD = new Plane()
+        Picture hopupD = new Picture(@"Objects\スライド1.PNG");
+
+        SetumeiHopup hopTagD = new SetumeiHopup();
+
+        Mine mineD = new Mine() { MinePosition = new Vector3(-89.5f, 0.5f, 56.73f), MineRadius = 4.0, Hysteresis = 1.0 };
 
         HUDWorld hudWorld = new HUDWorld();
         MiniMapWorld miniMapWorld = new MiniMapWorld();
+
+        private void Keyboard_KeyInput(Key key)
+        {
+            if (key == Key.K)
+            {
+                hudWorld.kintama.Visible = !hudWorld.kintama.Visible;
+            }
+        }
+
+        private void MineD_MineLeave()
+        {
+            hopTagD.Close();
+        }
+
+        private void MineD_MineHit()
+        {
+            hopTagD.Hop();
+        }
 
         public override void Render(RenderingContext context)
         {
             MovePlayer();
 
-            miniMapWorld.map.PSRTag.Position = new Vector3((float)(player.PlayerCam.Eye.X / 100.0), (float)(-player.PlayerCam.Eye.Z / 100.0), 0.0f);
-            miniMapWorld.map.PSRTag.Rotation = new Vector3(0, 0, (float)player.angleLR);
+            mineD.TargetPosition = player.PlayerCam.Eye;
+
+            miniMapWorld.map.PSRTag.Position = new Vector3((float)(-player.PlayerCam.Eye.X), 0.0f, (float)(-player.PlayerCam.Eye.Z));
+            miniMapWorld.map.PSRTag.Rotation = new Vector3(0, (float)player.angleLR, 0);
+            miniMapWorld.Zoom = player.PlayerCam.Eye.Y * 1.8 + 50.0;
 
             hudWorld.miniMapCanvas.SetCanvas();
             {

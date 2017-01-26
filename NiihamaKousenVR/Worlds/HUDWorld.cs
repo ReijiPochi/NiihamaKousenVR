@@ -43,18 +43,26 @@ namespace NiihamaKousenVR.Worlds
             //centerCircle.CountOfPoints = 20;
             //centerCircle.LineTag.Thickness = 0.01;
 
+            kintama.Tags.InsertToFirst(kintamaHop);
+            kintamaHop.Hop();
+
             Objects.Add(miniMap);
             Objects.Add(scoreBg);
+            Objects.Add(kintama);
             //Objects.Add(centerCircle);
             OverlayObjects.Add(score);
         }
 
-        Texture miniMapTex = new Texture(1000, 1000);
+        Texture miniMapTex = new Texture(400, 400);
         public RenderingCanvas miniMapCanvas;
         Picture miniMap = new Picture(1, 1);
 
         Text score = new Text(500, 200, new MatColor(1, 1, 1, 1));
         MATAPB.Objects.Primitive.Plane scoreBg = new MATAPB.Objects.Primitive.Plane(0.25, 0.1, Orientations.plusZ);
+
+        public Picture kintama = new Picture(@"Objects\酔い止めりんご.png", 0.2) { Visible = false };
+
+        Hopup kintamaHop = new SetumeiHopup() { MaxPosition = Vector3.Zero, HoverAnimation = HoverAnimations.Wave, WaveRate = 1, WaveHeight = 0.005 };
 
         //Circle centerCircle = new Circle() { Radius = 0.05, Color = new MatColor(1.0f, 1.0f, 0.7f, 0.0f) };
 
