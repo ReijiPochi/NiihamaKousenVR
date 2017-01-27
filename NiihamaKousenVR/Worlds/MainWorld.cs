@@ -38,9 +38,23 @@ namespace NiihamaKousenVR.Worlds
             bulidingC.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureC.png"), new Lighting(), new HeightToColor() });
             bulidingG.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureG.png"), new Lighting(), new HeightToColor() });
             floor.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\地面.png"), new Lighting() });
-            kusozako.Tags.AddTag(new Tag[] { new SolidColor(SolidColorOverwriteMode.ColorAndAlpha, new MatColor(1.0, 1.0, 1.0, 0.95)), new Lighting(), new HeightToColor() });
+            kusozako.Tags.AddTag(new Tag[] { new SolidColor(SolidColorOverwriteMode.ColorAndAlpha, new MatColor(1.0, 0.9, 0.9, 0.85)), new Lighting(), new HeightToColor() });
             underGround.Tags.AddTag(new Tag[] { new SolidColor(SolidColorOverwriteMode.ColorAndAlpha, new MatColor(1.0, 1.0, 1.0, 1.0)) });
             underGround.PSRTag.Position = -Vector3.UnitY;
+            flagD.Tags.RemoveTag(flagD.CameraTag);
+            flagD.Tags.AddTag(new LookCamera() { Scale = new Vector3(0.8f), Position = mineD.MinePosition });
+            flagD.Tags.InsertToFirst(hoverTagD);
+            flagShou.Tags.RemoveTag(flagShou.CameraTag);
+            flagShou.Tags.AddTag(new LookCamera() { Scale = new Vector3(0.8f), Position = mineShou.MinePosition });
+            flagShou.Tags.InsertToFirst(hoverTagShou);
+            flagMon.Tags.RemoveTag(flagMon.CameraTag);
+            flagMon.Tags.AddTag(new LookCamera() { Scale = new Vector3(0.8f), Position = mineMon.MinePosition });
+            flagMon.Tags.InsertToFirst(hoverTagMon);
+
+            hoverTagD.Hop();
+            hoverTagShou.Hop();
+            hoverTagMon.Hop();
+
 
             hopupD.PSRTag.Position = mineD.MinePosition;
             hopupD.PSRTag.Scale = new Vector3(1.5f);
@@ -48,6 +62,19 @@ namespace NiihamaKousenVR.Worlds
             hopupD.Tags.InsertToFirst(hopTagD);
             mineD.MineHit += MineD_MineHit;
             mineD.MineLeave += MineD_MineLeave;
+
+            hopupShou.PSRTag.Position = mineShou.MinePosition;
+            hopupShou.PSRTag.Scale = new Vector3(1.5f);
+            hopupShou.Tags.InsertToFirst(hopTagShou);
+            mineShou.MineHit += MineShow_MineHit;
+            mineShou.MineLeave += MineShow_MineLeave;
+
+            hopupMon.PSRTag.Position = mineMon.MinePosition;
+            hopupMon.PSRTag.Scale = new Vector3(1.5f);
+            hopupMon.PSRTag.Rotation = new Vector3(-0.1f, (float)(Math.PI / 2.0), 0);
+            hopupMon.Tags.InsertToFirst(hopTagMon);
+            mineMon.MineHit += MineMon_MineHit;
+            mineMon.MineLeave += MineMon_MineLeave;
 
             Objects.Add(sky);
             Objects.Add(buildingD);
@@ -62,6 +89,12 @@ namespace NiihamaKousenVR.Worlds
             Objects.Add(kusozako);
             Objects.Add(underGround);
             Objects.Add(hopupD);
+            Objects.Add(hopupShou);
+            Objects.Add(hopupMon);
+            
+            OverlayObjects.Add(flagD);
+            OverlayObjects.Add(flagShou);
+            OverlayObjects.Add(flagMon);
 
             ActiveCamera = player.PlayerCam;
 
@@ -84,19 +117,38 @@ namespace NiihamaKousenVR.Worlds
         Plane underGround = new Plane(1000, 1000, Orientations.plusY);
         //Plane hopupD = new Plane()
         Picture hopupD = new Picture(@"Objects\スライド1.PNG");
+        Picture hopupShou = new Picture(@"Objects\スライド2.PNG");
+        Picture hopupMon = new Picture(@"Objects\スライド3.PNG");
+        Picture flagD = new Picture(@"Objects\Flag.png");
+        Picture flagShou = new Picture(@"Objects\Flag.png");
+        Picture flagMon = new Picture(@"Objects\Flag.png");
 
         SetumeiHopup hopTagD = new SetumeiHopup();
+        FlagHopup hoverTagD = new FlagHopup();
+        SetumeiHopup hopTagShou = new SetumeiHopup();
+        FlagHopup hoverTagShou = new FlagHopup();
+        SetumeiHopup hopTagMon = new SetumeiHopup();
+        FlagHopup hoverTagMon = new FlagHopup();
 
         Mine mineD = new Mine() { MinePosition = new Vector3(-89.5f, 0.5f, 56.73f), MineRadius = 4.0, Hysteresis = 1.0 };
+        Mine mineShou = new Mine() { MinePosition = new Vector3(-44.9f, 0.5f, -82.0f), MineRadius = 4.0, Hysteresis = 1.0 };
+        Mine mineMon = new Mine() { MinePosition = new Vector3(-123.5f, 0.5f, -68.5f), MineRadius = 4.0, Hysteresis = 1.0 };
 
         HUDWorld hudWorld = new HUDWorld();
         MiniMapWorld miniMapWorld = new MiniMapWorld();
+
+        public bool showHUD = false;
 
         private void Keyboard_KeyInput(Key key)
         {
             if (key == Key.K)
             {
                 hudWorld.kintama.Visible = !hudWorld.kintama.Visible;
+            }
+
+            if (key == Key.P)
+            {
+                hudWorld.pinki.Visible = true;
             }
         }
 
@@ -110,11 +162,33 @@ namespace NiihamaKousenVR.Worlds
             hopTagD.Hop();
         }
 
+        private void MineShow_MineLeave()
+        {
+            hopTagShou.Close();
+        }
+
+        private void MineShow_MineHit()
+        {
+            hopTagShou.Hop();
+        }
+
+        private void MineMon_MineLeave()
+        {
+            hopTagMon.Close();
+        }
+
+        private void MineMon_MineHit()
+        {
+            hopTagMon.Hop();
+        }
+
         public override void Render(RenderingContext context)
         {
             MovePlayer();
 
             mineD.TargetPosition = player.PlayerCam.Eye;
+            mineShou.TargetPosition = player.PlayerCam.Eye;
+            mineMon.TargetPosition = player.PlayerCam.Eye;
 
             miniMapWorld.map.PSRTag.Position = new Vector3((float)(-player.PlayerCam.Eye.X), 0.0f, (float)(-player.PlayerCam.Eye.Z));
             miniMapWorld.map.PSRTag.Rotation = new Vector3(0, (float)player.angleLR, 0);
@@ -135,12 +209,16 @@ namespace NiihamaKousenVR.Worlds
 
             SwitchToBackbuffer();
 
-            hudWorld.Render(context);
+            if (showHUD)
+                hudWorld.Render(context);
+
+            if (hudWorld.pinki.Visible)
+                hudWorld.pinki.Visible = false;
         }
 
         private void InitLight()
         {
-            GlobalLight1.Color = new Vector4(1.1f, 1.1f, 1.1f, 0.0f);
+            GlobalLight1.Color = new Vector4(1.0f, 1.0f, 1.0f, 0.0f);
             GlobalLight1.Direction = new Vector4(2.0f, -2.0f, -10.0f, 0);
             GlobalLight1.Ambitent = new Vector4(0.0f, 0.03f, 0.1f, 0);
         }

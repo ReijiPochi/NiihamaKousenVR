@@ -57,7 +57,7 @@ namespace NiihamaKousenVR
         private void InitTL()
         {
             mainTL.Add(new OpeningTitle(), 0, 1);
-            mainTL.Add(new Gaming(), 3, 7);
+            mainTL.Add(new Gaming(), 2, 7);
         }
 
         private void Keyboard_KeyInput(Key key)

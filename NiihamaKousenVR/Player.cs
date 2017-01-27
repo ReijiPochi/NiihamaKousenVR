@@ -63,6 +63,7 @@ namespace NiihamaKousenVR
                     angleLR = 0.0;
                     HeightDelta = 10.0;
                     respawnAnimation = false;
+                    GameApp.MainWorld.showHUD = true;
                 }
             }
 

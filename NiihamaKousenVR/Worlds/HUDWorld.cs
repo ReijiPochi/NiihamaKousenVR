@@ -32,7 +32,7 @@ namespace NiihamaKousenVR.Worlds
             //scoreBg.CameraTag.UseCustomCamera = true;
             //scoreBg.CameraTag.CustomCamera = customCam;
 
-            score.TextValue = "001/025";
+            score.TextValue = "--0/---";
             score.FontSize = 100;
             score.PSRTag.Position = scoreBg.PSRTag.Position;
             score.PSRTag.Rotation = scoreBg.PSRTag.Rotation;
@@ -43,6 +43,9 @@ namespace NiihamaKousenVR.Worlds
             //centerCircle.CountOfPoints = 20;
             //centerCircle.LineTag.Thickness = 0.01;
 
+            howTo.PSRTag.Position = new Vector3((float)(customCam.CameraWidth / 2 - 0.12), (float)(-customCam.CameraHeight / 2 + 0.25), 0.0f);
+            howTo.PSRTag.Rotation = new Vector3(0.0f, -0.15f, 0.0f);
+
             kintama.Tags.InsertToFirst(kintamaHop);
             kintamaHop.Hop();
 
@@ -51,6 +54,8 @@ namespace NiihamaKousenVR.Worlds
             Objects.Add(kintama);
             //Objects.Add(centerCircle);
             OverlayObjects.Add(score);
+            OverlayObjects.Add(howTo);
+            OverlayObjects.Add(pinki);
         }
 
         Texture miniMapTex = new Texture(400, 400);
@@ -61,6 +66,9 @@ namespace NiihamaKousenVR.Worlds
         MATAPB.Objects.Primitive.Plane scoreBg = new MATAPB.Objects.Primitive.Plane(0.25, 0.1, Orientations.plusZ);
 
         public Picture kintama = new Picture(@"Objects\酔い止めりんご.png", 0.2) { Visible = false };
+        public Picture pinki = new Picture(@"Objects\ピンキー.jpg", 4) { Visible = false };
+
+        Picture howTo = new Picture(@"Objects\HowTo.png", 0.5);
 
         Hopup kintamaHop = new SetumeiHopup() { MaxPosition = Vector3.Zero, HoverAnimation = HoverAnimations.Wave, WaveRate = 1, WaveHeight = 0.005 };
 

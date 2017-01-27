@@ -80,6 +80,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="FlagHopup.cs" />
     <Compile Include="GameApp.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="SetumeiHopup.cs" />
