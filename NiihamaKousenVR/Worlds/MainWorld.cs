@@ -115,7 +115,7 @@ namespace NiihamaKousenVR.Worlds
         Object3D floor = new Object3D(@"Objects\地面.obj");
         Object3D kusozako = new Object3D(@"Objects\クソザコくん.obj");
         Plane underGround = new Plane(1000, 1000, Orientations.plusY);
-        //Plane hopupD = new Plane()
+
         Picture hopupD = new Picture(@"Objects\スライド1.PNG");
         Picture hopupShou = new Picture(@"Objects\スライド2.PNG");
         Picture hopupMon = new Picture(@"Objects\スライド3.PNG");
@@ -149,6 +149,11 @@ namespace NiihamaKousenVR.Worlds
             if (key == Key.P)
             {
                 hudWorld.pinki.Visible = true;
+            }
+
+            if (key == Key.R)
+            {
+                player.Respawn();
             }
         }
 

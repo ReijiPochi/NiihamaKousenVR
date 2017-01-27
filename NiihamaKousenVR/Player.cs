@@ -19,10 +19,9 @@ namespace NiihamaKousenVR
 
             SpeedFBDelta = 30.0;
             SpeedLRDelta = 30.0;
-            HeightDelta = 0.5;
+            Inertia = 10.0;
 
-            angleUD = 1.6;
-            angleLR = 0.5;
+            Respawn();
         }
 
         bool respawnAnimation = true;
@@ -33,6 +32,23 @@ namespace NiihamaKousenVR
             Up = Vector3.UnitY,
             FieldOfView = 80
         };
+
+        public void Respawn()
+        {
+            HeightDelta = 0.5;
+
+            angleUD = 1.6;
+            angleLR = 0.5;
+
+            if (GameApp.MainWorld != null)
+                GameApp.MainWorld.showHUD = false;
+
+            MainCam.Eye = new Vector3(-89.5f, 150.0f, 47.33f);
+
+            targetHeight = 1.2;
+
+            respawnAnimation = true;
+        }
 
         public override void Draw(RenderingContext context)
         {
