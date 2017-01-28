@@ -160,31 +160,37 @@ namespace NiihamaKousenVR.Worlds
         private void MineD_MineLeave()
         {
             hopTagD.Close();
+            hudWorld.score.TextValue = "守衛室へ向かえ！";
         }
 
         private void MineD_MineHit()
         {
             hopTagD.Hop();
+            hudWorld.score.TextValue = "電子制御工学科へ\nようこそ！！";
         }
 
         private void MineShow_MineLeave()
         {
             hopTagShou.Close();
+            hudWorld.score.TextValue = "電子棟へ向かえ！";
         }
 
         private void MineShow_MineHit()
         {
             hopTagShou.Hop();
+            hudWorld.score.TextValue = "保健室に\n菰田先生がいるぞ！！";
         }
 
         private void MineMon_MineLeave()
         {
             hopTagMon.Close();
+            hudWorld.score.TextValue = "尚友会館へ向かえ！";
         }
 
         private void MineMon_MineHit()
         {
             hopTagMon.Hop();
+            hudWorld.score.TextValue = "新居浜高専に\n入学、しよう！！";
         }
 
         public override void Render(RenderingContext context)

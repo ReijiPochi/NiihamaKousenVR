@@ -20,11 +20,15 @@ namespace NiihamaKousenVR.TL
             int timeCount = 0;
             while (GameApp.MainWorld == null)
             {
+                PresentationBase.AnimationClock.Pause();
                 timeCount++;
                 Thread.Sleep(1);
-                if (timeCount > 1000)
-                    Application.Current.Shutdown();
+                if (timeCount > 2000)
+                    Application.Current.Dispatcher.Invoke(() => { Application.Current.Shutdown(); });
             }
+
+            if (!PresentationBase.AnimationClock.IsCounting)
+                PresentationBase.AnimationClock.Start();
 
             PresentationBase.World = GameApp.MainWorld;
             Application.Current.Dispatcher.Invoke(() => { MATAPB.Input.Mouse.Active = true; });

@@ -32,8 +32,9 @@ namespace NiihamaKousenVR.Worlds
             //scoreBg.CameraTag.UseCustomCamera = true;
             //scoreBg.CameraTag.CustomCamera = customCam;
 
-            score.TextValue = "--0/---";
-            score.FontSize = 100;
+            score.TextAndFont.Font = "ＤＦＰ綜藝体W5";
+            score.TextValue = "電子棟へ向かえ！";
+            score.FontSize = 50;
             score.PSRTag.Position = scoreBg.PSRTag.Position;
             score.PSRTag.Rotation = scoreBg.PSRTag.Rotation;
             score.PSRTag.Scale = new Vector3(0.5f);
@@ -62,7 +63,7 @@ namespace NiihamaKousenVR.Worlds
         public RenderingCanvas miniMapCanvas;
         Picture miniMap = new Picture(1, 1);
 
-        Text score = new Text(500, 200, new MatColor(1, 1, 1, 1));
+        public Text score = new Text(500, 200, new MatColor(1, 1, 1, 1));
         MATAPB.Objects.Primitive.Plane scoreBg = new MATAPB.Objects.Primitive.Plane(0.25, 0.1, Orientations.plusZ);
 
         public Picture kintama = new Picture(@"Objects\酔い止めりんご.png", 0.2) { Visible = false };

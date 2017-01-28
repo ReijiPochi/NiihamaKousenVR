@@ -44,6 +44,7 @@ namespace NiihamaKousenVR
                 GameApp.MainWorld.showHUD = false;
 
             MainCam.Eye = new Vector3(-89.5f, 150.0f, 47.33f);
+            MainCam.FieldOfView = 80;
 
             targetHeight = 1.2;
 
@@ -63,8 +64,8 @@ namespace NiihamaKousenVR
 
                 if (angleUD >= 0.001)
                 {
-                    angleUD /= 1.015;
-                    angleUD -= 0.003;
+                    angleUD /= 1.01;
+                    angleUD -= 0.004;
                 }
 
                 if (angleLR >= 0.001)
