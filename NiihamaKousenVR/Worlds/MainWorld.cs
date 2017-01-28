@@ -101,6 +101,10 @@ namespace NiihamaKousenVR.Worlds
             Keyboard.KeyInput += Keyboard_KeyInput;
         }
 
+        RenderingCanvas mainCanvas = new RenderingCanvas((int)(PresentationBase.ViewArea.ActualWidth), (int)(PresentationBase.ViewArea.ActualHeight), 2);
+        RenderingCanvas mainCanvasPost = new RenderingCanvas((int)(PresentationBase.ViewArea.ActualWidth), (int)(PresentationBase.ViewArea.ActualHeight), 2);
+        RenderingCanvas hudCanvas = new RenderingCanvas((int)(PresentationBase.ViewArea.ActualWidth), (int)(PresentationBase.ViewArea.ActualHeight), 2);
+
         Player player = new Player();
 
         Object3D sky = new Object3D(@"Objects\Sky.obj");
@@ -212,16 +216,27 @@ namespace NiihamaKousenVR.Worlds
                 miniMapWorld.Render(context);
             }
 
-            PresentationBase.DefaultCanvas.SetCanvas();
+            mainCanvas.SetCanvas();
             {
-                context.canvas = PresentationBase.DefaultCanvas;
+                mainCanvas.ClearCanvas();
+                context.canvas = mainCanvas;
                 base.Render(context);
             }
 
-            SwitchToBackbuffer();
+            //SwitchAndResolveToBackbuffer(mainCanvas);
+            //mainCanvasPost.SetCanvas();
+            PresentationBase.GraphicsDevice.ImmediateContext.OutputMerger.SetTargets(mainCanvasPost.renderTarget);
+            Effect.Apply(mainCanvas);
+            mainCanvasPost.Resolve();
 
             if (showHUD)
+            {
+                hudCanvas.SetCanvas();
+                context.canvas = hudCanvas;
                 hudWorld.Render(context);
+
+                SwitchAndResolveToBackbuffer(hudCanvas);
+            }
 
             if (hudWorld.pinki.Visible)
                 hudWorld.pinki.Visible = false;
