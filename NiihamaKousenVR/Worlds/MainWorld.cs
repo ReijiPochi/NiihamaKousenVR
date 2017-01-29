@@ -12,6 +12,7 @@ using Keyboard = MATAPB.Input.Keyboard;
 using Mouse = MATAPB.Input.Mouse;
 using Vector3 = System.Numerics.Vector3;
 using Plane = MATAPB.Objects.Primitive.Plane;
+using Fog = MATAPB.Objects.Tags.Fog;
 using System.Windows;
 using MATAPB.Gaming.FPS;
 using System.Windows.Input;
@@ -26,20 +27,19 @@ namespace NiihamaKousenVR.Worlds
         public MainWorld()
         {
             InitLight();
-            Effect = new Straight();
-
+            
             sky.Tags.AddTag(new ColorTexture(@"Objects\Sky.png"));
-            buildingD.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureD.png"), new Lighting(), new HeightToColor() });
-            buildingS.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureS.png"), new Lighting(), new HeightToColor() });
-            buildingMon.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureMon.png"), new Lighting(), new HeightToColor() });
-            bulidingShou.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureShou.png"), new Lighting(), new HeightToColor() });
-            buildingZ.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureZ.png"), new Lighting(), new HeightToColor() });
-            bulidingLab.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureLab.png"), new Lighting(), new HeightToColor() });
-            bulidingC.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureC.png"), new Lighting(), new HeightToColor() });
-            bulidingG.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureG.png"), new Lighting(), new HeightToColor() });
-            floor.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\地面.png"), new Lighting() });
-            kusozako.Tags.AddTag(new Tag[] { new SolidColor(SolidColorOverwriteMode.ColorAndAlpha, new MatColor(1.0, 0.9, 0.9, 0.85)), new Lighting(), new HeightToColor() });
-            underGround.Tags.AddTag(new Tag[] { new SolidColor(SolidColorOverwriteMode.ColorAndAlpha, new MatColor(1.0, 1.0, 1.0, 1.0)) });
+            buildingD.Tags.AddTag(new ColorTexture(@"Objects\TextureD.png"), new Lighting(), new HeightToColor(), new Fog());
+            buildingS.Tags.AddTag(new ColorTexture(@"Objects\TextureS.png"), new Lighting(), new HeightToColor(), new Fog());
+            buildingMon.Tags.AddTag( new ColorTexture(@"Objects\TextureMon.png"), new Lighting(), new HeightToColor(), new Fog());
+            bulidingShou.Tags.AddTag(new ColorTexture(@"Objects\TextureShou.png"), new Lighting(), new HeightToColor(), new Fog());
+            buildingZ.Tags.AddTag(new ColorTexture(@"Objects\TextureZ.png"), new Lighting(), new HeightToColor(), new Fog());
+            bulidingLab.Tags.AddTag(new ColorTexture(@"Objects\TextureLab.png"), new Lighting(), new HeightToColor(), new Fog());
+            bulidingC.Tags.AddTag(new ColorTexture(@"Objects\TextureC.png"), new Lighting(), new HeightToColor(), new Fog());
+            bulidingG.Tags.AddTag(new ColorTexture(@"Objects\TextureG.png"), new Lighting(), new HeightToColor(), new Fog());
+            floor.Tags.AddTag(new ColorTexture(@"Objects\地面.png"), new Lighting(), new Fog());
+            kusozako.Tags.AddTag(new SolidColor(SolidColorOverwriteMode.ColorAndAlpha, new MatColor(1.0, 0.9, 0.9, 0.85)), new Lighting(), new HeightToColor(), new Fog());
+            underGround.Tags.AddTag(new SolidColor(SolidColorOverwriteMode.ColorAndAlpha, new MatColor(1.0, 1.0, 1.0, 1.0)));
             underGround.PSRTag.Position = -Vector3.UnitY;
             flagD.Tags.RemoveTag(flagD.CameraTag);
             flagD.Tags.AddTag(new LookCamera() { Scale = new Vector3(0.8f), Position = mineD.MinePosition });
@@ -103,7 +103,7 @@ namespace NiihamaKousenVR.Worlds
 
         //RenderingCanvas mainCanvas = new RenderingCanvas((int)(PresentationBase.ViewArea.ActualWidth), (int)(PresentationBase.ViewArea.ActualHeight), 1);
 
-        Fog fogEffect = new Fog();
+        //Fog fogEffect = new Fog();
 
         Player player = new Player();
 
