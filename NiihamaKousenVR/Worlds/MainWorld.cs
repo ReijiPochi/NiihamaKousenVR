@@ -26,7 +26,7 @@ namespace NiihamaKousenVR.Worlds
         public MainWorld()
         {
             InitLight();
-            Effect = new Fog();
+            Effect = new Straight();
 
             sky.Tags.AddTag(new ColorTexture(@"Objects\Sky.png"));
             buildingD.Tags.AddTag(new Tag[] { new ColorTexture(@"Objects\TextureD.png"), new Lighting(), new HeightToColor() });
@@ -101,9 +101,9 @@ namespace NiihamaKousenVR.Worlds
             Keyboard.KeyInput += Keyboard_KeyInput;
         }
 
-        RenderingCanvas mainCanvas = new RenderingCanvas((int)(PresentationBase.ViewArea.ActualWidth), (int)(PresentationBase.ViewArea.ActualHeight), 2);
-        RenderingCanvas mainCanvasPost = new RenderingCanvas((int)(PresentationBase.ViewArea.ActualWidth), (int)(PresentationBase.ViewArea.ActualHeight), 2);
-        RenderingCanvas hudCanvas = new RenderingCanvas((int)(PresentationBase.ViewArea.ActualWidth), (int)(PresentationBase.ViewArea.ActualHeight), 2);
+        //RenderingCanvas mainCanvas = new RenderingCanvas((int)(PresentationBase.ViewArea.ActualWidth), (int)(PresentationBase.ViewArea.ActualHeight), 1);
+
+        Fog fogEffect = new Fog();
 
         Player player = new Player();
 
@@ -216,27 +216,23 @@ namespace NiihamaKousenVR.Worlds
                 miniMapWorld.Render(context);
             }
 
-            mainCanvas.SetCanvas();
+            PresentationBase.DefaultCanvas.SetCanvas();
             {
-                mainCanvas.ClearCanvas();
-                context.canvas = mainCanvas;
+                context.canvas = PresentationBase.DefaultCanvas;
                 base.Render(context);
             }
 
-            //SwitchAndResolveToBackbuffer(mainCanvas);
-            //mainCanvasPost.SetCanvas();
-            PresentationBase.GraphicsDevice.ImmediateContext.OutputMerger.SetTargets(mainCanvasPost.renderTarget);
-            Effect.Apply(mainCanvas);
-            mainCanvasPost.Resolve();
+            //ApplyEffect(fogEffect, mainCanvas, PresentationBase.DefaultCanvas);
+
 
             if (showHUD)
             {
-                hudCanvas.SetCanvas();
-                context.canvas = hudCanvas;
+                PresentationBase.DefaultCanvas.SetCanvas();
+                context.canvas = PresentationBase.DefaultCanvas;
                 hudWorld.Render(context);
-
-                SwitchAndResolveToBackbuffer(hudCanvas);
             }
+
+
 
             if (hudWorld.pinki.Visible)
                 hudWorld.pinki.Visible = false;
